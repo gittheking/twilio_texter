@@ -1,7 +1,7 @@
-const router = require('express').Router();
+const router  = require('express').Router();
+const cronJob = require('cron').CronJob;
 
 // '00 24 21 * * 0-6'
-
 const textJob1 = new cronJob('* * * * * *', ()=>{console.log('going1')}, ()=>{console.log('stopped1')}, false);
 const textJob2 = new cronJob('* * * * * *', ()=>{console.log('going2')}, ()=>{console.log('stopped2')}, false);
 
