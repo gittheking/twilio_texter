@@ -1,9 +1,12 @@
 const twilio          = require('twilio');
 const http            = require('http');
 const express         = require('express');
+const path            = require('path');
 const parseString     = require('xml2js').parseString;
 const cronJob         = require('cron').CronJob;
-const async           = require('async');
+const homeRoute       = require('./routes/home');
+const userRoute       = require('./routes/user');
+const cronRoute       = require('./routes/cron');
 const zip_codes       = require('./zip_codes');
 
 const app             = express();
@@ -11,29 +14,13 @@ const client          = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILI
 const openWeatherKey  = process.env.OPENWEATHER_KEY;
 const port            = process.env.PORT || 3000;
 
-// '00 24 21 * * 0-6'
-
-const textJob1 = new cronJob('* * * * * *', ()=>{console.log('going1')}, ()=>{console.log('stopped1')}, false);
-const textJob2 = new cronJob('* * * * * *', ()=>{console.log('going2')}, ()=>{console.log('stopped2')}, false);
-
-
 app.set('view engine', 'ejs');
 
-app.get('/', (req,res) => {
-  res.render('index');
-});
+app.use(express.static(path(__dirname,'public')));
 
-app.get('/start/:id', (req,res) => {
-  if(req.params.id === "1") textJob1.start();
-  if(req.params.id === "2") textJob2.start();
-  res.redirect('/');
-});
-
-app.get('/stop/:id', (req,res) => {
-  if(req.params.id === "1") textJob1.stop();
-  if(req.params.id === "2") textJob2.stop();
-  res.redirect('/');
-});
+app.use('/', homeRoute);
+app.use('/user', userRoute);
+app.use('/cron', cronRoute);
 
 app.listen(port, (req,res) => {
   console.log('Server is listening on ', port);
