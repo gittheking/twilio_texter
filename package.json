@@ -4,17 +4,19 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Bobby King",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^0.8.7",
     "body-parser": "^1.15.2",
     "cron": "^1.1.0",
     "ejs": "^2.4.2",
     "express": "^4.14.0",
     "http-request": "^0.7.0",
+    "mongodb": "^2.1.18",
     "morgan": "^1.7.0",
     "path": "^0.12.7",
     "twilio": "^2.9.0",
